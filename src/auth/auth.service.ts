@@ -40,6 +40,7 @@ export class AuthService {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 email: newUser.email,
+                phone: newUser.phone
             };
             return {
                 access_token: await this.jwtService.signAsync(payload),
@@ -71,6 +72,7 @@ export class AuthService {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            phone: user.phone
         };
 
         return {
@@ -88,9 +90,9 @@ export class AuthService {
 
         const { tokenGenerated } = await this.tokensService.save(user)
 
-        await this.emailService.sendEmail({
-            email: createRecoveryPassByEmailDto.email
-        })
+        /*  await this.emailService.sendEmail({
+             email: createRecoveryPassByEmailDto.email
+         }) */
 
         return {
             tokenRecoveryPass: tokenGenerated,

@@ -11,6 +11,10 @@ import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product.entity';
 import { SectionsModule } from './sections/sections.module';
 import { Section } from './sections/entities/section.entity';
+import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
+import { ShoppingCart } from './shopping-cart/entities/shopping-cart.entity';
+import { CartDetailsModule } from './cart-details/cart-details.module';
+import { CartDetail } from './cart-details/entities/cart-detail.entity';
 
 
 @Module({
@@ -25,7 +29,7 @@ import { Section } from './sections/entities/section.entity';
       username: process.env.username,
       password: process.env.password,
       database: process.env.database,
-      entities: [User, Token, Product, Section],
+      entities: [User, Token, Product, Section, ShoppingCart, CartDetail],
       synchronize: true,
     }),
     AuthModule,
@@ -34,6 +38,8 @@ import { Section } from './sections/entities/section.entity';
     TokensModule,
     ProductsModule,
     SectionsModule,
+    ShoppingCartModule,
+    CartDetailsModule,
 
   ],
   controllers: [],

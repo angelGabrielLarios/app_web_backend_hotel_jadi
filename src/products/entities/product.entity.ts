@@ -1,5 +1,6 @@
+import { CartDetail } from "src/cart-details/entities/cart-detail.entity";
 import { Section } from "src/sections/entities/section.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
     name: 'products'
@@ -43,5 +44,6 @@ export class Product {
     @ManyToOne(() => Section, (section) => section.products)
     section: Section
 
-
+    @OneToMany(() => CartDetail, (cartDetail) => cartDetail.product)
+    cartDetails: CartDetail[]
 }

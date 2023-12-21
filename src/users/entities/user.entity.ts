@@ -1,3 +1,4 @@
+import { ShoppingCart } from "src/shopping-cart/entities/shopping-cart.entity";
 import { Token } from "src/tokens/entities/token.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -45,6 +46,11 @@ export class User {
 
     @OneToMany(() => Token, (token) => token.user)
     tokens: Token[]
+
+
+    @OneToMany(() => ShoppingCart, (shoppingCart) => shoppingCart.user)
+    shoppingsCarts: ShoppingCart[]
+
 }
 
 
