@@ -73,9 +73,6 @@ export class ShoppingCartService {
 
   async findOneByIdUser({ idUser }: { idUser: string }) {
     const shoppingCart = await this.shoppingCartRepository.findOne({
-      relations: {
-        user: true
-      },
       where: {
         user: {
           id: idUser
@@ -85,6 +82,9 @@ export class ShoppingCartService {
 
     return shoppingCart
   }
+
+
+
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateShoppingCartDto: UpdateShoppingCartDto) {

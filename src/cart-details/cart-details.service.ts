@@ -3,6 +3,7 @@ import { CreateCartDetailDto } from './dto/create-cart-detail.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartDetail } from './entities/cart-detail.entity';
 import { Repository } from 'typeorm';
+import { ISubtotal } from './interfaces/subtotal.interface';
 
 @Injectable()
 export class CartDetailsService {
@@ -66,6 +67,49 @@ export class CartDetailsService {
     return cartDetail
   }
 
+  async findAllByIdShopping({ idShoppingCart }: { idShoppingCart: string }) {
+    console.log(idShoppingCart)
+    const cartDetail = await this.cartDetailRepository.find({
+      relations: {
+        product: {
+          section: true
+        },
+        shoppingCart: true,
+      },
+      where: {
+        shoppingCart: {
+          id: idShoppingCart,
+        }
+      }
+    })
+    return cartDetail
+  }
+
+
+  async getSubTotalByProduct({ idProduct, idShoppingCart }: { idShoppingCart: string, idProduct: string }) {
+
+    const query =
+      `
+      SELECT
+      sc.id as shoppingCartId,
+      cd.id AS cartDetailId,
+      cd.quantity,
+      p.id AS productId,
+      p.name AS product_name,
+      p.price AS unit_price, (p.price * cd.quantity) AS subtotal_by_product
+      FROM cart_details cd
+      INNER JOIN products p ON cd.productId = p.id
+      INNER JOIN shopping_cart sc ON cd.shoppingCartId = sc.id
+      WHERE
+      sc.id = '${idShoppingCart}'
+      and p.id = '${idProduct}';
+    `
+    const rows = await this.cartDetailRepository.query(query) as ISubtotal[]
+
+    const [result] = rows
+
+    return result
+  }
 
   async updateById({ id, cartDetail }: { id: string, cartDetail: CartDetail }) {
     const cartDetailUpdate = await this.cartDetailRepository.update({ id: id }, {
@@ -76,7 +120,29 @@ export class CartDetailsService {
     return await this.findOneById({ id })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cartDetail`;
+
+  async updateQuantityById({ id, quantity }: { id: string, quantity: number }) {
+    await this.cartDetailRepository.update({ id }, { quantity })
+
+    const cartDetailNew = await this.cartDetailRepository.findOne({
+      relations: {
+        product: {
+          section: true
+        },
+        shoppingCart: true
+      },
+      where: {
+        id
+      }
+    })
+
+    return cartDetailNew
+
+
+  }
+
+  async remove({ id }: { id: string }) {
+    const cartDetails = await this.cartDetailRepository.delete(id)
+    return cartDetails
   }
 }
