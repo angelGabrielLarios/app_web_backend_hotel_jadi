@@ -74,3 +74,51 @@ FROM cart_details cd
 WHERE
     sc.id = '22f1108a-29d3-46b8-837a-8774df091a72'
     and p.id = '4fc8baa1-65d1-4f62-ac09-c6bc3c59f627';
+
+desc cart_details;
+
+desc shopping_cart;
+
+desc products;
+
+select * from cart_details;
+
+SELECT
+    sc.id,
+    SUM(pd.price * cd.quantity) AS total
+FROM cart_details cd
+    JOIN products pd ON cd.productId = pd.id
+    JOIN shopping_cart sc ON cd.id = sc.id
+WHERE
+    sc.id = '22f1108a-29d3-46b8-837a-8774df091a72'
+GROUP BY sc.id;
+
+SELECT
+    sd.shoppingCartId,
+    SUM(pd.price * cd.quantity) AS total
+FROM cart_details cd
+    JOIN products pd ON cd.productId = pd.id
+    JOIN shopping_cart sd ON cd.shoppingCartId = sd.id
+WHERE
+    sd.id = '22f1108a-29d3-46b8-837a-8774df091a72'
+GROUP BY sd.shoppingCartId;
+
+SELECT
+    sd.id AS shoppingCartId,
+    SUM(pd.price * cd.quantity) AS total
+FROM cart_details cd
+    JOIN products pd ON cd.productId = pd.id
+    JOIN shopping_cart sd ON cd.shoppingCartId = sd.id
+WHERE
+    sd.id = '22f1108a-29d3-46b8-837a-8774df091a72'
+GROUP BY sd.id;
+
+SELECT
+    sd.id AS shoppingCartId,
+    ROUND(SUM(pd.price * cd.quantity), 2) AS total
+FROM cart_details cd
+    JOIN products pd ON cd.productId = pd.id
+    JOIN shopping_cart sd ON cd.shoppingCartId = sd.id
+WHERE
+    sd.id = '22f1108a-29d3-46b8-837a-8774df091a72'
+GROUP BY sd.id;

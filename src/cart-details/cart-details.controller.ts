@@ -12,10 +12,6 @@ export class CartDetailsController {
   create(@Body() createCartDetailDto: CreateCartDetailDto) {
     return this.cartDetailsService.create(createCartDetailDto);
   }
-
-
-
-
   @Get('search')
   findOneByIdProductAndIdShopping(
     @Query('idProduct') idProduct: string,
@@ -23,19 +19,10 @@ export class CartDetailsController {
 
   ) {
 
-    console.log(idProduct)
-    console.log(idShoppingCart)
-
-    /* return this.cartDetailsService.findOneByIdProductAndIdShopping({ idProduct, idShoppingCart }) */
-    /* return this.cartDetailsService.findOne(+id); */
 
     if (!idProduct || !idShoppingCart) {
       throw new BadRequestException(`query parameters are missing`, `query parameters are missing idProduct or idShoppingCart`)
     }
-
-    /* return {
-      idProduct, idShoppingCart
-    } */
 
     return this.cartDetailsService.findOneByIdProductAndIdShopping({ idProduct, idShoppingCart })
   }
@@ -56,6 +43,14 @@ export class CartDetailsController {
       throw new BadRequestException(`query parameters are missing`, `query parameters are missing idProduct or idShoppingCart`)
     }
     return this.cartDetailsService.getSubTotalByProduct({ idProduct, idShoppingCart })
+  }
+
+  @Get('total-final/:idShoppingCart')
+  getTotalFinalByIdShoppingCart(
+    @Param('idShoppingCart') idShoppingCart: string,
+
+  ) {
+    return this.cartDetailsService.getTotalFinalByIdShoppingCart({ idShoppingCart })
   }
 
 

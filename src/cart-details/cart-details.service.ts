@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCartDetailDto } from './dto/create-cart-detail.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartDetail } from './entities/cart-detail.entity';
 import { Repository } from 'typeorm';
 import { ISubtotal } from './interfaces/subtotal.interface';
+import { ITotalFinal } from './interfaces/total-final.interface';
 
 @Injectable()
 export class CartDetailsService {
@@ -111,6 +112,27 @@ export class CartDetailsService {
     return result
   }
 
+  async getTotalFinalByIdShoppingCart({ idShoppingCart }: { idShoppingCart: string }) {
+    const query =
+      `
+      SELECT
+          sd.id AS shoppingCartId,
+          ROUND(SUM(pd.price * cd.quantity), 2) AS total
+      FROM cart_details cd
+          JOIN products pd ON cd.productId = pd.id
+          JOIN shopping_cart sd ON cd.shoppingCartId = sd.id
+      WHERE
+          sd.id = '${idShoppingCart}'
+      GROUP BY sd.id;
+    `
+
+    const rows = await this.cartDetailRepository.query(query) as ITotalFinal[]
+
+    const [result] = rows
+
+    return result
+  }
+
   async updateById({ id, cartDetail }: { id: string, cartDetail: CartDetail }) {
     const cartDetailUpdate = await this.cartDetailRepository.update({ id: id }, {
       ...cartDetail
@@ -142,7 +164,17 @@ export class CartDetailsService {
   }
 
   async remove({ id }: { id: string }) {
-    const cartDetails = await this.cartDetailRepository.delete(id)
-    return cartDetails
+    try {
+      const cartDetails = await this.cartDetailRepository.delete(id)
+      if (cartDetails.affected >= 1) {
+        return {
+          status: true,
+          message: `correct removed resource`,
+          id_delelte: `${id}`
+        }
+      }
+    } catch (error) {
+      throw new BadRequestException(`could not be deleted`, `could not be deleted`)
+    }
   }
 }
