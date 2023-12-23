@@ -9,6 +9,7 @@ import { EmailService } from 'src/email/email.service';
 import { CreateRestorePasswordDto } from './dto/create-restore-password.dto';
 import { CreateRecoveryPassByEmailDto } from './dto/create-recovery-pass-by-email.dto';
 
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -90,12 +91,14 @@ export class AuthService {
 
         const { tokenGenerated } = await this.tokensService.save(user)
 
-        /*  await this.emailService.sendEmail({
-             email: createRecoveryPassByEmailDto.email
-         }) */
+        await this.emailService.sendEmailRecoveryPassWithGmail({
+            email: createRecoveryPassByEmailDto.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            token: tokenGenerated
+        })
 
         return {
-            tokenRecoveryPass: tokenGenerated,
             emailRecoveryPass: createRecoveryPassByEmailDto.email
         }
 
@@ -103,7 +106,7 @@ export class AuthService {
 
     async restorePassword({ token, email, newPassword }: CreateRestorePasswordDto) {
 
-        const isValidateToken = await this.tokensService.validateToken({ token })
+        const { isValidateToken } = await this.tokensService.validateToken({ token })
 
         if (!isValidateToken) {
             throw new BadRequestException(`invalidate_token`, `invalidate_token`)
@@ -124,10 +127,13 @@ export class AuthService {
             newPassword: hashedPassword
         })
 
+        await this.tokensService.remove({ tokenText: token })
 
 
         return {
-            user: updateUser
+            status: true,
+            success: `restore_password`,
+            message: `Restore password with successulfy`
         }
     }
 }

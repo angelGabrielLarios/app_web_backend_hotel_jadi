@@ -21,8 +21,6 @@ export class UsersService {
         email: email
       }
     })
-
-    console.log(user, 'desde userservice')
     return user
 
   }
@@ -40,7 +38,7 @@ export class UsersService {
       password: newPassword,
 
     })
-    console.log(updateUser)
+
     return updateUser
   }
 

@@ -39,15 +39,22 @@ export class TokensService {
   }
 
   async validateToken({ token }: { token: string }) {
+
     const rowToken = await this.tokenRepository.findOne({
       where: {
         token: token
       }
     })
 
-
-    return rowToken ? true : false
+    return {
+      isValidateToken: rowToken ? true : false
+    }
   }
 
+
+  async remove({ tokenText }: { tokenText: string }) {
+    const tokenRemove = await this.tokenRepository.findOne({ where: { token: tokenText } })
+    return await this.tokenRepository.remove(tokenRemove)
+  }
 
 }

@@ -37,6 +37,7 @@ export class AuthController {
 
     @Patch('restore-password')
     restorePassword(@Body() createRestorePasswordDto: CreateRestorePasswordDto) {
+        console.log('pathc, auth controller para reestablecer contraseña')
         return this.authService.restorePassword(createRestorePasswordDto)
     }
 

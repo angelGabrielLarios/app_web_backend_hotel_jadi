@@ -122,3 +122,14 @@ FROM cart_details cd
 WHERE
     sd.id = '22f1108a-29d3-46b8-837a-8774df091a72'
 GROUP BY sd.id;
+
+SELECT * FROM users;
+
+select * from tokens;
+
+SELECT *
+from tokens
+WHERE
+    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxYTE2MDFmOC1jNGEzLTRlZDMtOGM0Yi0yYjhkNjQ3M2E0MGIiLCJlbWFpbCI6Imxhcmlvc2Fjb3N0YWFAZ21haWwuY29tIiwiaWF0IjoxNzAzMjk3NzM4fQ.V2DGGKrYE2z3AiQNumgYka2l-9DSgVceWT8BZrrWbKU';
+
+SELECT * FROM tokens;

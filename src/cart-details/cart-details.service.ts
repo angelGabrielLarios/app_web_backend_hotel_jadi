@@ -69,7 +69,7 @@ export class CartDetailsService {
   }
 
   async findAllByIdShopping({ idShoppingCart }: { idShoppingCart: string }) {
-    console.log(idShoppingCart)
+
     const cartDetail = await this.cartDetailRepository.find({
       relations: {
         product: {
@@ -128,7 +128,15 @@ export class CartDetailsService {
 
     const rows = await this.cartDetailRepository.query(query) as ITotalFinal[]
 
+
     const [result] = rows
+
+    if (!result) {
+      return {
+        shoppingCartId: idShoppingCart,
+        total: 0
+      }
+    }
 
     return result
   }
