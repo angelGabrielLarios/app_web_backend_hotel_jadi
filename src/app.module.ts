@@ -15,6 +15,9 @@ import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { ShoppingCart } from './shopping-cart/entities/shopping-cart.entity';
 import { CartDetailsModule } from './cart-details/cart-details.module';
 import { CartDetail } from './cart-details/entities/cart-detail.entity';
+import { PaypalModule } from './paypal/paypal.module';
+import { SectionsVisitedModule } from './sections_visited/sections_visited.module';
+import { SectionsVisited } from './sections_visited/entities/sections_visited.entity';
 
 
 @Module({
@@ -29,7 +32,7 @@ import { CartDetail } from './cart-details/entities/cart-detail.entity';
       username: process.env.username,
       password: process.env.password,
       database: process.env.database,
-      entities: [User, Token, Product, Section, ShoppingCart, CartDetail],
+      entities: [User, Token, Product, Section, ShoppingCart, CartDetail, SectionsVisited],
       synchronize: true,
     }),
     AuthModule,
@@ -40,6 +43,8 @@ import { CartDetail } from './cart-details/entities/cart-detail.entity';
     SectionsModule,
     ShoppingCartModule,
     CartDetailsModule,
+    PaypalModule,
+    SectionsVisitedModule,
 
   ],
   controllers: [],

@@ -83,6 +83,8 @@ export class CartDetailsService {
         }
       }
     })
+
+    console.log(cartDetail)
     return cartDetail
   }
 

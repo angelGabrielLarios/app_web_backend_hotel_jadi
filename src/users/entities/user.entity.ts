@@ -1,3 +1,4 @@
+import { SectionsVisited } from "src/sections_visited/entities/sections_visited.entity";
 import { ShoppingCart } from "src/shopping-cart/entities/shopping-cart.entity";
 import { Token } from "src/tokens/entities/token.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -22,6 +23,12 @@ export class User {
     })
     lastName: string
 
+
+    @Column({
+        type: 'text'
+    })
+    address: string
+
     @Column({
         type: 'varchar',
         length: 120,
@@ -32,7 +39,8 @@ export class User {
 
     @Column({
         type: 'varchar',
-        length: 20
+        length: 20,
+        unique: true
     })
     phone: string
 
@@ -40,7 +48,6 @@ export class User {
     @Column({
         type: 'text'
     })
-
     password: string
 
 
@@ -50,6 +57,9 @@ export class User {
 
     @OneToMany(() => ShoppingCart, (shoppingCart) => shoppingCart.user)
     shoppingsCarts: ShoppingCart[]
+
+    @OneToMany(() => SectionsVisited, (sectionsVisited) => sectionsVisited.user)
+    sections_visited: SectionsVisited[]
 
 }
 

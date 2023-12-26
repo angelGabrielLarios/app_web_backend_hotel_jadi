@@ -25,6 +25,25 @@ export class UsersService {
 
   }
 
+  async findOneByPhoneNumber({ phoneNumber }: { phoneNumber: string }) {
+
+    const user = await this.userRepository.findOne({
+      select: {
+        firstName: true,
+        lastName: true,
+        address: true,
+        id: true,
+        email: true,
+        phone: true
+      },
+      where: {
+        phone: phoneNumber
+      }
+    })
+    return user
+
+  }
+
   async save(createUserDto: CreateUserDto) {
     const user = await this.userRepository.save(createUserDto)
     return user

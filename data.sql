@@ -133,3 +133,33 @@ WHERE
     token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxYTE2MDFmOC1jNGEzLTRlZDMtOGM0Yi0yYjhkNjQ3M2E0MGIiLCJlbWFpbCI6Imxhcmlvc2Fjb3N0YWFAZ21haWwuY29tIiwiaWF0IjoxNzAzMjk3NzM4fQ.V2DGGKrYE2z3AiQNumgYka2l-9DSgVceWT8BZrrWbKU';
 
 SELECT * FROM tokens;
+
+DELETE FROM cart_details;
+
+DELETE FROM shopping_cart;
+
+DELETE FROM tokens;
+
+DELETE FROM users;
+
+desc users;
+
+SELECT * FROM users;
+
+DELETE FROM users;
+
+use dic2023;
+
+SELECT * from users;
+
+show tables;
+
+desc sections_visited;
+
+select * from users;
+
+SELECT * from sections;
+
+select * from sections_visited;
+
+desc sections_visited;

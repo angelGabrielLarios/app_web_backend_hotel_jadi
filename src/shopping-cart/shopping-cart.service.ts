@@ -66,7 +66,6 @@ export class ShoppingCartService {
     return cartDetail
 
   }
-
   findAll() {
     return `This action returns all shoppingCart`;
   }

@@ -9,6 +9,9 @@ export class CreateRegisterUserDto {
     lastName: string
 
     @IsString()
+    address: string
+
+    @IsString()
     email: string
 
     @IsString()

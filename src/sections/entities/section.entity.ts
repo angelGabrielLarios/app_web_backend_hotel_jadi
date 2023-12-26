@@ -1,4 +1,5 @@
 import { Product } from "src/products/entities/product.entity";
+import { SectionsVisited } from "src/sections_visited/entities/sections_visited.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
@@ -20,4 +21,7 @@ export class Section {
 
     @OneToMany(() => Product, product => product.section)
     products: Product[];
+
+    @OneToMany(() => SectionsVisited, (sectionsVisited) => sectionsVisited.section)
+    sections_visited: SectionsVisited[]
 }

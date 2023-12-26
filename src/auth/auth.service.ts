@@ -20,39 +20,49 @@ export class AuthService {
     ) { }
 
     async register(createRegisterUserDto: CreateRegisterUserDto) {
-        try {
-            const userExist = await this.usersService.findOneByEmail(createRegisterUserDto.email);
-            if (userExist) {
-                throw new Error(`already_email`);
-            }
 
-            const hashedPassword = await bcrypt.hash(createRegisterUserDto.password, 10);
 
-            const newUser = await this.usersService.save({
-                firstName: createRegisterUserDto.firstName,
-                lastName: createRegisterUserDto.lastName,
-                email: createRegisterUserDto.email,
-                password: hashedPassword,
-                phone: createRegisterUserDto.phone,
-            });
 
-            const payload = {
-                id: newUser.id,
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
-                email: newUser.email,
-                phone: newUser.phone
-            };
-            return {
-                access_token: await this.jwtService.signAsync(payload),
-            };
+        const userExistWithPhone = await this.usersService.findOneByPhoneNumber({ phoneNumber: createRegisterUserDto.phone })
 
-        } catch (error: any) {
-            if (error.message === 'already_email') {
-                throw new BadRequestException(error.message, `This email ${createRegisterUserDto.email} has already been registered.`)
-            }
+        console.log(userExistWithPhone)
+
+        if (userExistWithPhone) {
+            throw new BadRequestException(`already_phone`, `This phone ${createRegisterUserDto.phone} has already been registered.`)
         }
+
+        const userExistWithEmail = await this.usersService.findOneByEmail(createRegisterUserDto.email);
+
+        if (userExistWithEmail) {
+            throw new BadRequestException(`already_email`, `This email ${createRegisterUserDto.email} has already been registered.`)
+        }
+
+        const hashedPassword = await bcrypt.hash(createRegisterUserDto.password, 10);
+
+        const newUser = await this.usersService.save({
+            firstName: createRegisterUserDto.firstName,
+            lastName: createRegisterUserDto.lastName,
+            email: createRegisterUserDto.email,
+            password: hashedPassword,
+            phone: createRegisterUserDto.phone,
+            address: createRegisterUserDto.address
+        });
+
+        const payload = {
+            id: newUser.id,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            phone: newUser.phone
+        };
+        return {
+            access_token: await this.jwtService.signAsync(payload),
+        };
+
     }
+
+
+
 
     async login(createLoginUserDto: CreateLoginUserDto) {
 

@@ -54,6 +54,7 @@ export class ProductsService {
     const products = await this.productRepository.find({
       select: {
         section: {
+          id: true,
           name: true
         }
       },
