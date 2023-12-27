@@ -15,10 +15,6 @@ export class CartDetail {
     })
     quantity: number
 
-    @Column({
-        type: 'varchar'
-    })
-    status: string
 
 
     @ManyToOne(() => ShoppingCart, shoppingCart => shoppingCart.cartDetails)

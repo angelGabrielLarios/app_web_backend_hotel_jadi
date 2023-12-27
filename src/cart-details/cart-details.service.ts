@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCartDetailDto } from './dto/create-cart-detail.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartDetail } from './entities/cart-detail.entity';
@@ -17,7 +17,6 @@ export class CartDetailsService {
   async create(createCartDetailDto: CreateCartDetailDto) {
     const cartDetailRef = this.cartDetailRepository.create({
       quantity: createCartDetailDto.quantity,
-      status: createCartDetailDto.status,
       product: { id: createCartDetailDto.idProduct },
       shoppingCart: { id: createCartDetailDto.idShoppingCart }
     })
@@ -84,7 +83,11 @@ export class CartDetailsService {
       }
     })
 
-    console.log(cartDetail)
+    if (!cartDetail) {
+      throw new NotFoundException(`not_found_cart_details`, `not_found_cart_details`)
+    }
+
+
     return cartDetail
   }
 
@@ -128,7 +131,9 @@ export class CartDetailsService {
       GROUP BY sd.id;
     `
 
+
     const rows = await this.cartDetailRepository.query(query) as ITotalFinal[]
+    console.log(rows, 'desde cart-details service')
 
 
     const [result] = rows

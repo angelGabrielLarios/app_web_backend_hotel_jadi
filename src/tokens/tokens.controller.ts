@@ -10,8 +10,6 @@ export class TokensController {
   validateToken(
     @Param('token') token: string
   ) {
-
-    console.log(token, 'desde el controlador')
     return this.tokensService.validateToken({
       token
     })

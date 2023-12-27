@@ -5,9 +5,6 @@ export class CreateCartDetailDto {
     quantity: number
 
     @IsString()
-    status: string
-
-    @IsString()
     idShoppingCart: string
 
     @IsString()
