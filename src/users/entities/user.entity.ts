@@ -1,6 +1,7 @@
-import { SectionsVisited } from "src/sections_visited/entities/sections_visited.entity";
-import { ShoppingCart } from "src/shopping-cart/entities/shopping-cart.entity";
-import { Token } from "src/tokens/entities/token.entity";
+
+
+
+import { Reservation } from "src/reservations/entities/reservation.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
@@ -51,15 +52,8 @@ export class User {
     password: string
 
 
-    @OneToMany(() => Token, (token) => token.user)
-    tokens: Token[]
-
-
-    @OneToMany(() => ShoppingCart, (shoppingCart) => shoppingCart.user)
-    shoppingsCarts: ShoppingCart[]
-
-    @OneToMany(() => SectionsVisited, (sectionsVisited) => sectionsVisited.user)
-    sections_visited: SectionsVisited[]
+    @OneToMany(() => Reservation, (reservation) => reservation.user)
+    reservations: Reservation[]
 
 }
 

@@ -1,0 +1,12 @@
+-- Active: 1702943187359@@127.0.0.1@3306@hotel
+CREATE DATABASE hotel;
+
+USE hotel;
+
+
+SHOW DATABASES;
+
+
+SHOW TABLES;
+
+

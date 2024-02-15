@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { jwtConstants } from './constants';
 import { UsersModule } from 'src/users/users.module';
-import { TokensModule } from 'src/tokens/tokens.module';
+
 import { EmailModule } from 'src/email/email.module';
 
 @Module({
@@ -15,7 +15,6 @@ import { EmailModule } from 'src/email/email.module';
       global: true,
       secret: jwtConstants.secret,
     }),
-    TokensModule,
     EmailModule
 
   ],
